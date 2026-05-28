@@ -27,7 +27,7 @@ type(scope): short description (imperative mood, lowercase)
 
 `player` · `inventory` · `enemy` · `ui` · `audio` · `scene` · `build` · `docs` · `{your-system}`
 
-> Replace with your project's actual system names. See `Docs/0_User_Manual/RULES_AND_POLICY.md` §2 for naming conventions.
+> Replace with your project's actual system names. See `RULES_AND_POLICY.md` §2 for naming conventions.
 
 ## Examples
 
@@ -62,6 +62,6 @@ juice(player): add heartbeat audio on low health
 - Use kebab-case for the description
 
 ## Quick Rule
- 
-> Before committing, check your DevLog entry in `Docs/3_Outputs/DevLog/`.
+
+> Before committing, check your DevLog entry in `Docs/DevLog/`.
 > The commit message should be a condensed version of what you wrote there.

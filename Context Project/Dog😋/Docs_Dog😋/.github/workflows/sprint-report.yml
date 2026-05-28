@@ -63,31 +63,31 @@ jobs:
 
           echo "" >> /tmp/raw_log.md
           echo "## DevLog Entries" >> /tmp/raw_log.md
-          find 3_Outputs/DevLog -type f -name "*.md" -mtime -8 -print 2>/dev/null | sort | while read -r file; do
+          find Docs\(Template\)/DevLog -type f -name "*.md" -mtime -8 -print 2>/dev/null | sort | while read -r file; do
             echo "- $file" >> /tmp/raw_log.md
             sed -n '1,80p' "$file" >> /tmp/raw_log.md
             echo "" >> /tmp/raw_log.md
           done
- 
+
           echo "" >> /tmp/raw_log.md
           echo "## ADR Updates" >> /tmp/raw_log.md
-          find 3_Outputs/ADRs -type f -name "*.md" -mtime -8 -print 2>/dev/null | sort | while read -r file; do
+          find Docs\(Template\)/ADRs -type f -name "*.md" -mtime -8 -print 2>/dev/null | sort | while read -r file; do
             echo "- $file" >> /tmp/raw_log.md
             sed -n '1,60p' "$file" >> /tmp/raw_log.md
             echo "" >> /tmp/raw_log.md
           done
- 
+
       - name: Format report with AI
         env:
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
         run: |
-          python 2_System_Files/Scripts/format_sprint_report.py \
+          python Docs\(Template\)/scripts/format_sprint_report.py \
             --input /tmp/raw_log.md \
-            --template 1_Inputs_Templates/PM_Report_Template.md \
-            --output "3_Outputs/PM_Reports/${{ env.REPORT_DATE }}-sprint-report.md"
- 
+            --template Docs\(Template\)/Reports/_TEMPLATE.md \
+            --output "Docs(Template)/Reports/${{ env.REPORT_DATE }}-sprint-report.md"
+
       - name: Create PR with report
         uses: peter-evans/create-pull-request@v5
         with:
@@ -96,7 +96,7 @@ jobs:
           title: "Sprint Report - ${{ env.REPORT_DATE }}"
           body: |
             Auto-generated AI-formatted sprint report for the week ending ${{ env.REPORT_DATE }}.
- 
-            Review the report in `3_Outputs/PM_Reports/${{ env.REPORT_DATE }}-sprint-report.md`.
+
+            Review the report in `Docs(Template)/Reports/${{ env.REPORT_DATE }}-sprint-report.md`.
           branch: report/${{ env.REPORT_DATE }}
           base: main
