@@ -16,7 +16,7 @@ The most important production constraint is:
 - **Simple logic over clever systems**
 - **VFX impact over animation complexity**
 
-If a feature requires complex combat state, strict timing rules, advanced combo routing, or high execution skill, it is outside the current design direction.
+This Design aim for Casual Game with Low Floor. Low Ceiling. High Impact in Flashy visuals.
 
 ---
 
@@ -25,33 +25,31 @@ If a feature requires complex combat state, strict timing rules, advanced combo 
 
 | Field | Direction |
 | --- | --- |
-| Working Title | **Neo-JJK** |
-| Genre | **2D side-scrolling action hack-and-slash rogue-lite** |
-| Core Fantasy | Clear chaotic side-scrolling combat rooms with a small team of flashy characters, swapping them to spend skills, apply buffs, and burst enemies down. |
-| Player Promise | Fast basic action, readable attacks, big VFX, simple upgrades, and easy team rotations. |
-| Skill Target | **Casual low floor and low ceiling**. The game should feel good quickly and should not demand fighting-game execution. |
-| Development Target | **Amateur-dev friendly**. Prefer boring, reliable systems over advanced combat architecture. |
-| Platform Priority | **Undocumented**. Controls must remain simple enough for keyboard/controller/mobile-style mapping. |
-| Camera / Play Plane | **2D side-scrolling combat plane**. |
-| Tone | Fast, flashy, supernatural, arcade-like, lightweight rogue-lite pressure. |
-| Story Intent | TBD. Story should support combat flavor without forcing complex quest or narrative systems. |
+| **Working Title** | **Neo-JJK** |
+| **Genre** | **2D Side-Scrolling / Action / Hack-and-Slash / Rogue-lite** |
+| **Core Fantasy** | Clear chaotic side-scrolling combat rooms with a small team of flashy characters, swapping them to spend skills, apply buffs, and burst enemies down. |
+| **Player Promise** | Fast basic action, readable attacks, big VFX, simple upgrades, and easy team rotations. |
+| **Game Design Philosophy** | **Casual low floor and low ceiling. fast-paced reward and execution.** |
+| **Development Philosophy** | Highly Systematic and Architecture like senior programmer Clean Code. Prefer simple, reliable systems rather than hard-coded. The codebase should short and modular to prevent Bug. |
+| **Platform Priority** | PC-Focus (Keyboard/Controller) |
+| **Camera / Play Plane** | 2D side-scrolling combat plane. |
+| **Tone** | Fast, flashy, supernatural, arcade-like, lightweight rogue-lite pressure. |
+| **Story Intent** | "Shin" died and was transported into Death Game Cursed Realm by Spirit Waifu name "Blind" and discovered that all players contain a Cursed Technique called "Aura" that amplify their fighting spirit to fight Monster "Fiend". All of you are rival and your enemy is your time. No matter you died in Curse Realm you will respawn at the beginning but only  1 out of 50 Players can survive and brought back to life so if you are getting back behind, you will forget who you are and become a one of "Fiend". |
 
 ### Experience Pillars
 
-1. **Fast Basic Action**
-   The player should move, attack, dodge, use skills, and swap characters with little friction.
+1. **Fast-paced Combat Hack & Slash**
+   - The gameplay prioritize **Moment-to-Moment Action and Flashy Visuals**.
+   - **Simple Learning Curve** : No character reqiured much learn to mastery. High skill come from Team-Building focus
 
-2. **Simple Team Rotation**
-   Team play is about spending available skills and buffs, not building long combo routes.
+2. **Beat Them and Acquire Them**
+   - **Defeat Bosses**: Defeating other players (bosses) in the Cursed Realm unlocks them as playable characters in your pool.
+   - **Soul Shop**: Shop for selling what you get from previously run (like *Dead Cell*) such as Character, Artifact, Items etc and Purchase and recruit defeated players to build your team.
+   <img src="https://digitalchumps.com/wp-content/uploads/2024/01/Jin.gif?x96629" alt="Blazblue Entropy Effect Combat]" width="800">
 
-3. **VFX-First Impact**
-   Combat should feel powerful through hit-stop, screen shake, slash arcs, particles, sound, and damage numbers more than complex character animation.
-
-4. **Rogue-Lite Stat Growth**
-   Run upgrades should mostly increase numbers or simple effects. They should not unlock complicated new action rules.
-
-5. **Low Complexity Always Wins**
-   The correct solution is usually the easiest one to implement, tune, and debug.
+3. **Rogue-lite Mechanics**
+   - **Soul System (Character Potential)**: Upgradable character progression that unlocks new combo routes, modifies passive loops, and changes skill utilities.
+   - **Artifact System**: Passive and active power-ups found during Cursed Realm runs.
 
 ---
 
@@ -59,6 +57,8 @@ If a feature requires complex combat state, strict timing rules, advanced combo 
 ## Visual, Mood, and Audio Direction
 
 ### Mood Board Keywords
+
+<img src="https://i.redd.it/p4scnbqwrp991.gif" alt="Concept art" width="800">
 
 - 2D side-scrolling dungeon action
 - Flashy supernatural slashes and impacts
@@ -96,47 +96,37 @@ Sound should make combat easy to read:
 
 ### Primary Rule
 
-The current platform target is undocumented, so the design must stay input-light.
+**PC Keyboard & Mouse is the authoritative input model.** Gamepad controller support is a mapped port layer mirroring the exact same verb set and timing windows, without redesigning combat around precision differences.
 
-All combat should fit a small action layout:
+### PC Keyboard & Mouse Controls
 
-- Move
-- Basic attack
-- Dodge / dash
-- Skill
-- Ultimate
-- Swap character
-- Interact, if needed
+| Input | Combat Verb | Description / Behavior |
+| --- | --- | --- |
+| **A / D** | Move Left / Right | Horizontal locomotion. Dash cancels can be directed by holding A or D. |
+| **Space** | Jump | Double jump supported. Press in air to double jump. |
+| **LMB** | Basic Attack (BA) | Performs state-based basic attack chains. |
+| **RMB** | Skill | Triggers character-specific skill. |
+| **Shift** | Dash | Invincibility-frame dash. |
+| **Q** | Ultimate | Triggers character ultimate. |
+| **S (on platform)** | Drop down | Drop down to the platform below. |
+| **1, 2, 3** | Team Swap | Swaps active character to slot 1, 2, or 3. |
 
 ### Input Rules
 
-- No fighting-game motion inputs.
-- No strict link timing.
-- No frame-perfect cancel requirements.
-- No deep directional combo trees.
-- No required air-combat execution.
-
-### Jump / Air Rule
-
-Jumping and light traversal are TBD. If jump exists, it should not become a full aerial combat system.
-
-Removed from the active design:
-
-- Air attack as a core combat layer
-- Plunge attack
-- Real juggle routes
-- Knockdown combo extensions
+1. **Buffer Window**: The system maintains a **12-frame input buffer**. Inputs registered within 12 frames of an active action ending are queued and executed on the first possible frame.
+2. **Priority Input Type over Input Order** : Input Type Hierarchy is **"System/Swap/Reaction" -> "Skill/Ultimate" -> "Dash/Jump" -> "Basic Attack" -> "Basic Movement"**. If the player presses different input type in the buffer window, the input type with higher priority will be executed and clear the cache.
+3. **Team Swap** : When press Team Swap will clone another character into field with **Swap animation sequence** while the previous character will continue to execute their last action until end then disappear(this called **Team Swap Cancel**) and new character will Inheritance the last Input buffer of previous character to continue chaining.
 
 ---
 
 <!-- @tag:core-loop -->
 ## Core Game Loop
 
-The fundamental rogue-lite loop is:
+<img src="https://digitalchumps.com/wp-content/uploads/2024/01/Gorgeous-action-packed-battles.gif?x96629" alt="Blazblue Entropy Effect Combat]" width="800">
 
 1. Choose a team, character loadout, or starting modifier.
 2. Enter a side-scrolling combat room.
-3. Clear enemies using basic attacks, skills, ultimates, dodges, and simple swaps.
+3. explore and clear enemies.
 4. Pick a reward, potential, stat boost, or effect upgrade.
 5. Continue through more rooms, events, elites, and bosses.
 6. Win the run or fail, then return to the run start/hub flow.
@@ -157,37 +147,22 @@ This is similar to a simplified Genshin-style rotation:
 
 **DPS -> spend skill/ult -> swap buffer/support -> apply buff -> swap DPS -> burst -> swap back -> repeat**
 
-### What This Replaces
-
-The old micro loop of **Defensive <-> Offensive** pressure is removed.
-
-Neo-JJK should use a generic rogue-lite action loop instead:
-
-- Enter room
-- Kill enemies
-- Avoid hazards
-- Collect reward
-- Improve build
-- Fight boss
-
 ### Progression Cadence
 
-Difficulty should ramp through enemy count, projectile density, hazard patterns, elite modifiers, and boss phases.
-
-Do not ramp difficulty through execution-heavy combos, frame traps, or enemy systems that require fighting-game knowledge.
+- Run Scaling: Enemy health, speed, and aggression scale over time.
+- Level Exploration: Explore more rooms as you progress into game and beat the new and more challenging bosses.
+- Level Selection : Player can Choose Normal or Nightmare mode to exponential the difficulty and more punishing to player.
 
 ### Failure / Recovery Pattern
 
 Players should fail because they mistimed dodges, stood in boss patterns, chose risky upgrades, or got overwhelmed by room pressure.
 
-Players should not fail because they missed strict cancels, optimal combo routes, perfect swaps, or hidden frame rules.
-
 ---
 
-<!-- @tag:team-combat -->
-## Team Combat Direction
+<!-- @tag:combat -->
+## Combat Direction
 
-### Core Rule
+### Team-Combat Rules
 
 Team combat is **rotation-based**, not combo-driven.
 
@@ -198,55 +173,19 @@ Characters are tools in a simple loop:
 - Buffer/support spends skill or ultimate.
 - DPS returns to use stronger damage.
 
+**Role Classification**:
+
+- **Main DPS**: High on-field presence, executes core combos and sustained loops.
+- **Sub DPS**: Quick-swap burst, dumps Skills/Ultimates.
+- **Support**: Defensive utility (shields/heals) and team-wide offensive buffs.
+
 ### Swap Rules
 
 Allowed:
 
-- Swap character during combat.
-- Swap during or after basic attacks if implementation is simple.
-- Optional swap-in effect, such as small damage, shield, buff, or particle burst.
-
-Not allowed:
-
-- Perfect Swap from Zenless Zone Zero.
-- Swap parry.
-- Swap counter.
-- Swap-specific slow motion timing windows.
-- Swap routes that require lab-style combo practice.
-- Team swap systems that require complex animation cancel logic.
-
-### Character Kit Budget
-
-Each character should stay small:
-
-| Kit Part | Budget |
-| --- | --- |
-| Basic Attack | 2-3 simple states/hits maximum |
-| Skill | 1 simple active skill |
-| Ultimate | 1 flashy high-impact action |
-| Passive | Simple stat/effect rule |
-| Swap Effect | Optional, simple, non-precision |
-
-Characters should feel different through:
-
-- Range
-- Cooldown
-- Area shape
-- Damage type
-- Buff/debuff role
-- VFX identity
-- Simple status effects
-
-Characters should not feel different through:
-
-- Long combo lists
-- Stance routing
-- Air routes
-- Grab routes
-- Frame advantage
-- Character-specific cancel rules
-
----
+- **Team Swap Cancel** : When press Team Swap will clone another character into field with **Swap animation sequence** while the previous character will continue to execute their last action until end then disappear, the movement of the previous character will also be preserved and executed normally.
+- **Team Swap Inheritance** : the new character will Inheritance the last Input buffer of previous character to continue chaining.
+- **Optional** swap-in effect, such as small damage, shield, heal, buff, or particle burst depend on Character Passive or Artifact.
 
 <!-- @tag:combat-scope -->
 ## Combat Scope and Removed Mechanics
@@ -306,15 +245,144 @@ Not allowed:
 Hit reactions should be presentation-first. If the player sees a knock-up, it can simply be an animation/VFX trick rather than a deep gameplay state.
 
 ---
+<!-- @tag:characters -->
+### Character Kit Design Principles
+
+Each character should stay small:
+
+| Kit Part | Budget |
+| --- | --- |
+| Basic Attack | 2-3 simple states/hits maximum |
+| Skill | 1 simple active skill |
+| Ultimate | 1 flashy high-impact action |
+| Passive | Simple stat/effect rule |
+| Swap Effect | Optional, simple, non-precision |
+
+Characters should feel different through:
+
+- Range
+- Cooldown
+- Area shape
+- Damage type
+- Buff/debuff role
+- VFX identity
+- Simple status effects
+
+Characters should not feel different through:
+
+- Long combo lists
+- Stance routing
+- Air routes
+- Grab routes
+- Frame advantage
+- Character-specific cancel rules
+
+### Combat Action System
+
+<img src="https://wutheringlab.com/wp-content/uploads/2023/06/8.gif" alt="Wuthering Wave Combat]" width="800">
+Every character has actions governed by distinct Wind-up (SF), Active (AF), and Recovery (RF) animation frames:
+
+- **Basic Attack (BA)**: Simple Linear State Attack 2-3 State Hit like MMORPG. Fast and Loopable.
+- **Skill**: Custom ability. Cancels BA. Cooldown-gated. A/D inputs steer/alter trajectory or form.
+- **Ultimate (Ult)**: High-damage finisher. Cancels Skill.
+
+All Action can be done on Ground or Air, The Player FSM should stay the same result.
+
+Remove any Character Lock position/gravity on Action (Except Dash/Jump) to prevent character stuck loop.
+
+### Basic Attack
+
+- 2-3 hit loop maximum.
+- Simple forward-facing hitboxes.
+- Can be interrupted only if implementation remains simple.
+- Damage and VFX matter more than animation depth.
+
+### Skill
+
+- One active skill per character.
+- Cooldown-based.
+- Should have obvious area, projectile, buff, shield, or movement purpose.
+- Avoid alternate branches and strict timing.
+
+### Ultimate
+
+- Flashy burst action.
+- High impact VFX.
+- Simple resource or cooldown gate.
+- Should be easy to trigger and understand.
+
+### Dodge / Dash
+
+- Simple survival verb.
+- Can include short invulnerability if easy to implement and tune.
+- Should be readable and responsive.
+
+### Swap
+
+- Changes active character.
+- May have cooldown if needed.
+- May trigger a simple swap effect.
+- Does not create perfect-swap gameplay.
+
+### Buff / Debuff
+
+- Use simple timers and stat modifiers.
+- Avoid stacking rules that need spreadsheets.
+- Make UI feedback readable.
+
+### Character Data
+
+#### Character Stats
+
+<img src="https://upload-os-bbs.hoyolab.com/upload/2025/01/28/13693861/d7cf74b844c6ff690f37810e2610c852_2399325505013166081.jpg?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70" alt="Wuthering Wave Combat]" width="800">
+
+| Stats | Value | Description |
+| --- | --- | --- |
+| ATK | 10 | Attack |
+| DEF | 10 | Defense |
+| HP | 100 | Health |
+|SPD | X | Speed |
+| CDR | XX% | Cooldown Reduction Mastery |
+| CRIT | XX% | Critical Rate |
+| CRIT Dmg | XX% | Critical Damage |
+|DMG Mastery| XX% | Damage Mastery |
+|DMG Res| XX% | Damage Resistance |
+
+---
 
 <!-- @tag:progression -->
-## Rogue-Lite Progression and Character Potential
+## Rogue-Lite Progression
+
+### Soul Shop System
+
+- **Shop Lore** : a opportunist devil that collect a dead soul on Cursed Realm and sell for high price.
+- **Shop Rule** : The Soul Shop act as a safe haven for players. It is the only place where players can change, replace, or purchase their loadout (Character/Artifact) before venturing into the next Cursed Realm.  
+- **Shop Algorithm**: The shop algorithm will use the pool of character, artifact that the player have unlocked and the pool of enemy in the Cursed Realm that the player have defeated or explored. it never present what you never seen.
+- **Shop Reroll**: Player can Reroll shop Item but the new Item price will overpriced increase every time you reroll.
+
+### Utility Resource
+
+| Entity | Description | Rogue-lite Reset |
+| --- | --- | --- |
+|Currency | The In-Game Utility Currency for **Soul Shop** | Lose |
+| Soul Fragment | The Currency of the game can only acquire by defeating the Elite/Boss enemy on the Cursed Realm Run. | Retain |
+| Character | The Characters that can use in the game. | Lose but retain the upgrade |
+| Artifact | The Passive and active power-ups found during Cursed Realm runs. | Lose but Retain the Upgrade |
+| Items | The consumable items that can use during the Cursed Realm runs. | Lose |
+
+P.S Lose but retain Upgrade mean you lose that Item/Character/Artifact if you die in Cursed Realm Run but if you able to buy again, they will come with latest of your unlocked upgrade(e.g Instead of new Fresh Potential Lv.0 they come with Potential Lv.5 and Artifacts also the same rule.)
 
 ### Character Potential Rule
 
-Character Potential now acts like generic rogue-lite growth.
+![Character Potential Rule](https://static.wikia.nocookie.net/gensin-impact/images/3/3f/Constellation_Menu.png/revision/latest?cb=20220411014019)
 
-Potential may:
+#### Permanent Potential Upgrade
+
+- it represent a system like Constellation or Aetherium Core in Honkai Star Rail. this will use to permanent upgrade that character. Linear path no seperation, each upgrade will always benefit to the character in a different way.
+- Potential upgrade only acquired when you buy that character from Soul Shop again, the price will increase every time you upgrade.
+- Max upgrade is 1/6 step
+
+#### Potential can
 
 - Increase stats
 - Increase effect strength
@@ -325,7 +393,7 @@ Potential may:
 - Improve shield/heal/buff value
 - Improve ultimate charge or damage
 
-Potential must not:
+#### Potential must not
 
 - Add new combo routes
 - Add new cancel rules
@@ -391,11 +459,13 @@ Items should be understandable in one sentence. Avoid hidden formulas and combo 
 **Role:** Basic target for fast room-clearing.
 
 **Design intent**
+
 - Dies quickly.
 - Teaches attack range and crowd control.
 - Can stagger or knock back lightly.
 
 **Counterplay**
+
 - Basic attacks, skill area damage, and simple dodging.
 
 ### Ranged Enemy
@@ -403,11 +473,13 @@ Items should be understandable in one sentence. Avoid hidden formulas and combo 
 **Role:** Forces movement and target priority.
 
 **Design intent**
+
 - Shoots readable projectiles.
 - Stays behind melee enemies when possible.
 - Low health, moderate danger.
 
 **Counterplay**
+
 - Dash through projectiles, close distance, or clear with area skills.
 
 ### Shield / Guard Enemy
@@ -415,11 +487,13 @@ Items should be understandable in one sentence. Avoid hidden formulas and combo 
 **Role:** Slows down button-mashing without requiring complex counters.
 
 **Design intent**
+
 - Blocks or reduces frontal damage.
 - Vulnerable after attacking or from behind.
 - Should not require parry systems.
 
 **Counterplay**
+
 - Dodge around, use skill area damage, or swap into burst.
 
 ### Elite Enemy
@@ -427,11 +501,13 @@ Items should be understandable in one sentence. Avoid hidden formulas and combo 
 **Role:** Adds mini-boss pressure inside rooms.
 
 **Design intent**
+
 - Has 2-3 clear attacks.
 - Uses larger telegraphs than trash enemies.
 - Drops stronger rewards.
 
 **Counterplay**
+
 - Respect telegraphs, dodge, burst during recovery.
 
 ### Hazard / Projectile Pattern
@@ -439,11 +515,13 @@ Items should be understandable in one sentence. Avoid hidden formulas and combo 
 **Role:** Adds rogue-lite room pressure.
 
 **Design intent**
+
 - Creates simple Touhou-lite avoidance moments.
 - Uses clear danger indicators.
 - Does not require pixel-perfect dodging.
 
 **Counterplay**
+
 - Move, dash, reposition, kill the source.
 
 ---
@@ -499,51 +577,6 @@ Bosses should not:
 
 ---
 
-<!-- @tag:mechanics -->
-## System Mechanics
-
-### Basic Attack
-
-- 2-3 hit loop maximum.
-- Simple forward-facing hitboxes.
-- Can be interrupted only if implementation remains simple.
-- Damage and VFX matter more than animation depth.
-
-### Skill
-
-- One active skill per character.
-- Cooldown-based.
-- Should have obvious area, projectile, buff, shield, or movement purpose.
-- Avoid alternate branches and strict timing.
-
-### Ultimate
-
-- Flashy burst action.
-- High impact VFX.
-- Simple resource or cooldown gate.
-- Should be easy to trigger and understand.
-
-### Dodge / Dash
-
-- Simple survival verb.
-- Can include short invulnerability if easy to implement and tune.
-- Should be readable and responsive.
-
-### Swap
-
-- Changes active character.
-- May have cooldown if needed.
-- May trigger a simple swap effect.
-- Does not create perfect-swap gameplay.
-
-### Buff / Debuff
-
-- Use simple timers and stat modifiers.
-- Avoid stacking rules that need spreadsheets.
-- Make UI feedback readable.
-
----
-
 <!-- @tag:inspirations -->
 ## Inspirations and Design Boundaries
 
@@ -563,16 +596,6 @@ Bosses should not:
 - Bosses with clear tells and pattern pressure.
 - Team rotation based on skill cooldowns and buffs.
 - Big VFX that makes simple attacks feel good.
-
-### What Not To Copy Blindly
-
-- KOF / BlazBlue execution complexity.
-- Fighting-game frame data depth.
-- ZZZ Perfect Swap timing and counter systems.
-- Long combo trees.
-- Advanced air juggling.
-- Animation-heavy combat that amateur production cannot support.
-- Upgrade systems that mutate simple characters into complex combo kits.
 
 ---
 
