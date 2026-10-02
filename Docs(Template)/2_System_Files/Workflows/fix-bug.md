@@ -6,10 +6,8 @@ description: Structured bug investigation and fix workflow
 
 ## Steps
 
-### 0. Validate Intake
-- If the bug came from Discord, Notion, GitHub, or a direct prompt, convert it into `Docs/3_Outputs/Specs/{bug-name}-task-card.md`
-- Validate the task card against `Docs/2_System_Files/Handoff_Contracts/README.md`
-- Route with `2_System_Files/Agent_Prompts/orchestrator-agent.md` and confirm the workflow is `/fix-bug`
+> **Step 0:** See `Workflows/README.md` — Common Step 0.
+
  
 ### 1. Understand the Bug
 - Read the bug report (issue or description)

@@ -12,14 +12,8 @@ description: End-to-end feature implementation following the multi-agent pipelin
  
 ## Steps
  
-### 0. Validate Task Card (Router)
-Use `2_System_Files/Agent_Prompts/orchestrator-agent.md` to validate:
-- Task slug, type, owner, source, and GDD tags are present
-- `status` allows feature work to start
-- `blocked_by` is empty
-- The workflow selected is `/implement-feature`
- 
-If the task card is missing, create it from `Docs/1_Inputs_Templates/Task_Card_Template.md` before continuing.
+> **Step 0:** See `Workflows/README.md` — Common Step 0.
+
 
 ### 1. Identify the GDD Section
 Read the relevant `@tag:` section from `Docs/1_Inputs_Templates/GDD.md` that motivates this feature.

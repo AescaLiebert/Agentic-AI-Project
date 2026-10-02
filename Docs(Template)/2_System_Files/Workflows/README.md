@@ -6,8 +6,6 @@ description: Agent workflow index and router entrypoint
 
 IDE workflow automation files for AI-assisted game development.
 
-Compatible with Cursor rules, Claude Code `CLAUDE.md`, Gemini CLI, Windsurf, or any agent that reads markdown workflows.
-
 ## Available Workflows
 
 | Workflow | Trigger | Description |
@@ -19,32 +17,11 @@ Compatible with Cursor rules, Claude Code `CLAUDE.md`, Gemini CLI, Windsurf, or 
 | [refactor.md](refactor.md) | `/refactor` | Impact analysis -> safe refactor -> regression check |
 | [report.md](report.md) | `/report` | Generate a weekly or sprint PM report from git logs and DevLogs |
 
-## Routing
- 
-For multi-agent work, start with `2_System_Files/Agent_Prompts/orchestrator-agent.md`.
- 
-The orchestrator must:
- 
-- Convert Discord, Notion, GitHub, or direct requests into `Docs/3_Outputs/Specs/{slug}-task-card.md`.
-- Validate the task card against `Docs/2_System_Files/Handoff_Contracts/README.md`.
-- Select exactly one workflow to run next.
-- Stop at human checkpoints instead of guessing.
- 
-## How to Use
- 
-### In Cursor / Windsurf
- 
-Copy the workflow markdown files into your project's `.cursorrules` or equivalent config directory.
- 
-### In Claude Code
- 
-Reference these workflows in your `CLAUDE.md` file:
- 
-```markdown
-See 2_System_Files/Workflows/ for available workflow commands.
-Start multi-agent work with 2_System_Files/Agent_Prompts/orchestrator-agent.md.
-```
+## Common Step 0: Validate Task Card
 
-### In Any AI Chat
+All workflows except `/code-review` and `/report` start with this step:
 
-Paste the relevant workflow steps into the conversation. For multi-agent work, paste the orchestrator prompt first so the AI routes the task instead of jumping straight into code.
+1. If intake is from Discord/Notion/GitHub/direct prompt, convert to `Docs/3_Outputs/Specs/{slug}-task-card.md`
+2. Validate against `Docs/2_System_Files/Handoff_Contracts/README.md`
+3. Route with `orchestrator-agent.md` and confirm the workflow selection
+4. If the task card is missing, create from `Docs/1_Inputs_Templates/Task_Card_Template.md`

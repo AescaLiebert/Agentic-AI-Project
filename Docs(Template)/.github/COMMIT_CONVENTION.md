@@ -23,11 +23,8 @@ type(scope): short description (imperative mood, lowercase)
 | `chore`    | Build, CI, dependencies, tooling                 | `chore: update URP to latest` |
 | `juice`    | Game feel / polish / VFX / SFX only              | `juice(player): add screen shake on damage` |
 
-## Scopes (customize per project)
-
-`player` · `inventory` · `enemy` · `ui` · `audio` · `scene` · `build` · `docs` · `{your-system}`
-
-> Replace with your project's actual system names. See `Docs/0_User_Manual/RULES_AND_POLICY.md` §2 for naming conventions.
+## Scopes
+See `RULES_AND_POLICY.md` §2 for naming conventions.
 
 ## Examples
 
@@ -40,28 +37,9 @@ before entering chase mode, matching the GDD design intent.
 Ref: GDD @tag:enemies
 ```
 
-```
-fix(flashlight): prevent drain while paused
-
-Flashlight was losing battery during pause menu.
-This broke the tension loop by punishing menu usage.
-```
-
-```
-juice(player): add heartbeat audio on low health
-
-- 3 intensity levels based on health percentage
-- BPM increases: 60 → 90 → 120
-- Fades in/out smoothly
-```
-
 ## Branch Naming
-
 - Format: `{prefix}/{short-description}`
 - Examples: `feat/parry-system`, `fix/inventory-overflow`, `refactor/scene-loading`
-- Use kebab-case for the description
 
 ## Quick Rule
- 
-> Before committing, check your DevLog entry in `Docs/3_Outputs/DevLog/`.
-> The commit message should be a condensed version of what you wrote there.
+The commit message should be a condensed version of your DevLog entry in `Docs/3_Outputs/DevLog/`.

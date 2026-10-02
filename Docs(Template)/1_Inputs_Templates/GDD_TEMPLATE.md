@@ -1,19 +1,7 @@
 # {Project Name} — Game Design Document
 
 ## Purpose
-
-This document is the shared north star for AI coders, senior engineers, technical designers, and future contributors working on **{Project Name}**.
-
-It has two equally important jobs:
-
-1. Preserve the intended identity of the game.
-2. Give the current prototype a clean technical direction without pretending that the clean architecture already exists.
-
-Read this as a **design-led execution charter**:
-
-- The **game fantasy, emotional tone, and player loop are authoritative**.
-- The **current codebase is prototype truth**, not final architecture.
-- Any refactor must protect the intended player experience while improving maintainability.
+This document is the shared design-led execution charter for **{Project Name}**.
 
 ---
 
@@ -79,8 +67,7 @@ Read this as a **design-led execution charter**:
 - {Input 3}: {action}
 
 ### {Secondary Platform} Port Rules
-- Mirror the same verbs and timing windows.
-- Do not redesign encounters around {secondary platform} precision.
+- Mirror the same verbs and timing windows without redesigning encounters.
 
 ---
 
@@ -303,20 +290,3 @@ Every future implementation must clearly separate **current implementation** fro
 - {priority 1}
 - {priority 2}
 
----
-
-## Final Instruction To Contributors
-
-When working on **{Project Name}**, do not optimize only for clean code and do not optimize only for vibes.
-
-The correct target is:
-
-- **emotionally faithful {genre} design**
-- **{primary platform}-first readable gameplay**
-- **data-driven scalable architecture**
-- **clear ownership instead of prototype sprawl**
-
-If a choice improves architecture but weakens {core emotion}, it is the wrong choice.
-If a choice preserves mood but makes the code impossible to scale, it is also the wrong choice.
-
-Build toward both.

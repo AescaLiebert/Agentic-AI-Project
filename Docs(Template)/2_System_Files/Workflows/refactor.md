@@ -16,14 +16,8 @@ Refactors have a **different risk profile** than features or bugfixes:
 
 ## Steps
 
-### 0. Validate Task Card (Router)
-Use `2_System_Files/Agent_Prompts/orchestrator-agent.md` to validate:
-- Task slug, type, owner, source, and GDD/ADR references are present
-- The task is a refactor, not a hidden feature or bugfix
-- `status` allows refactor work to start
-- `blocked_by` is empty
- 
-If the task card is missing, create it from `Docs/1_Inputs_Templates/Task_Card_Template.md` before continuing.
+> **Step 0:** See `Workflows/README.md` — Common Step 0.
+
  
 ### 1. Define the Refactor Goal
 Write a one-sentence goal:

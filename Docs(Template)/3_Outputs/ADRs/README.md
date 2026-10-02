@@ -1,7 +1,5 @@
 # Architecture Decision Records Index
 
-> Last updated: {YYYY-MM-DD}
-
 ## Dependency Order
 
 ```mermaid

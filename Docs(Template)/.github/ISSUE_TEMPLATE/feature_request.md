@@ -51,8 +51,8 @@ _{Did you consider other approaches? Why is this one preferred?}_
 
 ## Agent Workflow
 
-- [ ] Converted into `Docs/Specs/{slug}-task-card.md`
-- [ ] Routed with `AgentPrompts/orchestrator-agent.md`
+- [ ] Converted into `Docs/3_Outputs/Specs/{slug}-task-card.md`
+- [ ] Routed with `2_System_Files/Agent_Prompts/orchestrator-agent.md`
 - [ ] Human design checkpoint assigned
 
 ## Additional Context

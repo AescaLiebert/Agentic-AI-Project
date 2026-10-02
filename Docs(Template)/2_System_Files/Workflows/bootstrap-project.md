@@ -9,14 +9,6 @@ description: Bootstrap project context — Human fills brief, AI generates GDD-r
 >
 > **Token budget:** This workflow is designed to be run ONCE. After it completes, all other workflows load only the `@tag:` section they need from the filled GDD (~200-500 tokens per call instead of ~8,700).
 
-## Why This Workflow Exists
-
-The template system ships with `{placeholder}` values everywhere. Until those are filled:
-- Agent prompts reference `project-stack.md` → but it's empty → agents hallucinate context
-- Workflows load `GDD.md` → but it's a template → no real file paths, no real systems
-- Token budget is wasted on loading placeholder text
-
-**This workflow solves all of that in one pass.**
 
 ---
 
@@ -131,37 +123,6 @@ The project documentation is now **GDD-ready for development**:
 
 ---
 
-## How This Saves Tokens
-
-### Before Bootstrap (Generic Template)
-```
-Every agent call loads:
-  project-stack.md (placeholders)     → 400 tokens of nothing
-  GDD.md (placeholders)              → 2,000 tokens of nothing
-  Agent prompt                       → 700 tokens
-  RULES_AND_POLICY.md (full)         → 2,500 tokens (most irrelevant)
-  ─────────────────────────────────
-  TOTAL: ~5,600 tokens, 0% useful context
-```
-
-### After Bootstrap (Filled GDD)
-```
-Every agent call loads:
-  project-stack.md (filled)           → 400 tokens of REAL context
-  GDD @tag:{relevant-section} only   → 200-500 tokens of REAL context
-  Agent prompt                       → 700 tokens
-  ─────────────────────────────────
-  TOTAL: ~1,300-1,600 tokens, 100% useful context
-  SAVINGS: ~72% token reduction per agent call
-```
-
-### The Key Insight
-
-**The GDD becomes a context index, not a context blob.**
-
-Agents never load the full GDD. They load `project-stack.md` (the index) and then the specific `@tag:` section they need (the page). This is the same as how a database index works — you don't read the whole table, you read the index then fetch the row.
-
----
 
 ## Anti-Patterns
 

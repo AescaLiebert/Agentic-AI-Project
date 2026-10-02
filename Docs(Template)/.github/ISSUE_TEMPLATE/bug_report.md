@@ -40,8 +40,8 @@ _{What actually happens.}_
 
 ## Agent Workflow
 
-- [ ] Converted into `Docs/Specs/{slug}-task-card.md`
-- [ ] Routed with `AgentPrompts/orchestrator-agent.md`
+- [ ] Converted into `Docs/3_Outputs/Specs/{slug}-task-card.md`
+- [ ] Routed with `2_System_Files/Agent_Prompts/orchestrator-agent.md`
 - [ ] Regression test plan created or updated if player-facing risk exists
 
 ## Additional Context

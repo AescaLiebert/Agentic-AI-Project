@@ -47,5 +47,5 @@
 
 ---
 
-_Generated from DevLog entries and `git log --since="{start-date}"`._ 
-_See `multi_agent_workflow_design.md` §5 for automation setup._
+_Generated from DevLog entries and `git log --since="{start-date}"`._
+
